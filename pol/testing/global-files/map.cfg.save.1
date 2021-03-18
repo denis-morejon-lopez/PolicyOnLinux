@@ -1,0 +1,141 @@
+# [nombre-politica]:
+# El nombre de la politica tiene que coincidir con el del directorio que se crea al respecto y va entre corchetes 
+
+# minfrequency <Numero-entero> <Unidad-de-tiempo>
+# Es un atributo opcional del objeto politica. Establece el tiempo minimo para que se ejecuta nuevamente una politica.
+# Las unidades de tiempo son: m - minutos , h - horas , d - dias
+
+# targetdn:
+# Se refiere a la unidad organizativa a la que se va a aplicar la politica. Pertenecen a los objetos [politica]
+# y pueden escribirse varias en una sola linea siempre que medie un espacio entre ellas. 
+# Debe llevar comillas dobles si hay espacio dentro del nombre de la unidad organizativa
+
+# activation-date:
+# 1- Es un atributo del objeto targetdn y es opcional. Si no existe la politica se activa por defecto
+# 2- Se especifica el rango de tiempo en el cual se activa la politica para ese targetdn
+# 3- El formato de tiempo es el siguiente:
+#    a) El desde y el hasta se separan por un '_'
+#    b) Mientras cada fecha tiene el formato: year-mounth-day-hour-minute
+ 
+# version:
+# 1- Pertenecen a los objetos targetdn
+# 2- Los valores de version van separados por espacios y encerrados entre comillas
+# 3- Constituyen subcadenas (o mas bien expresiones regulares) del nombre completo de la version del S.O
+# 4- Las versiones de cada distribucion GNU/Linux se encuentran generalmente en el fichero /etc/issue de cada PC
+# 5- La version "others" se refiere al resto de las versones no especificadas
+# 6- Escribir version es obligatorio
+# 7- La expresion regular ".*" significa "Todas las versiones". 
+#    Las versiones 9.x de Ubuntu se escriben: "Ubuntu 9.*"
+#    Puede leer sobre expresiones regulares en "man grep"
+
+# operation:
+# 1- Se pueden definir operaciones de copia y ejecucion en la misma linea 'operation'
+# 2- Luego tendran que aparecer los atributos correspondientes a ambas operaciones, pero en cualquier orden
+
+# copytype:
+# 1- Es un atributo opcional de la operacion copy. 
+# 2- copytype puede tener valores: optional template
+#    optional - Significa que aunque no se copien los ficheros no se detiene el sistema
+#    template - Significa que lo que se copiara sera una plantilla y no un fichero estatico
+
+# %(HOME)s
+# Es una variable que se puede ubicar en los ficheros destinos de las copias, cuando se
+# deseen hacer copias para los directorios HOME de cada usuario logueado en las PCs.
+# Ejemplo: 
+#     srcfiles file1
+#     dstfiles %(HOME)s/.gnome/file1
+# Si el directorio .gnome no existiera, porque el usuario usa otra interfaz, da un error la copia.
+# Entonces fuera conveniente usar en estos casos:  copytype  optional 
+
+[sudoers]
+targetdn "ou=People,dc=cfg,dc=etecsa,dc=cu"
+#    year-mounth-day-hour-minute_ year-mounth-day-hour-minute
+#activation-date 2009-08-01-00-00_2010-08-01-00-00
+version ".*"
+operation copy
+srcfiles sudoers
+dstfiles /etc/sudoers
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+# 'version' es un atributo obligatorio 
+# aunque le referencia sea para todas las versiones
+version ".*"
+operation none
+
+[ssh_acl]
+targetdn "ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation copy
+srcfiles hosts.deny hosts.soporte
+dstfiles /etc/hosts.deny /etc/hosts.soporte
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation copy
+srcfiles hosts.deny hosts.administradores
+dstfiles /etc/hosts.deny /etc/hosts.soporte
+
+#[group_conf]
+#targetdn "ou=People,dc=cfg,dc=etecsa,dc=cu"
+#version ".*"
+#operation copy
+#srcfiles group.conf
+#dstfiles /etc/security/group.conf
+
+#targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+#version ".*"
+#operation none
+
+[time_zone]
+#minfrequency 1 m
+# Las comillas solo son necesarias si existen espacios en blanco en el valor
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts time_zone.py
+
+[upgrade_pc]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts upgrade_pc.py
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+[change_root_passwd]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts change_root_passwd.py
+
+targetdn "ou=TECNOLOGIA DE LA INFORMACION,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+#[background]
+#targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+#version ".*"
+#operation copy
+#copytype optional
+#srcfiles etecsa.jpg    Fondo.xml
+#dstfiles /usr/share/backgrounds/warty-final-ubuntu.png    %(HOME)s/.gconf/desktop/gnome/background/%gconf.xml
+
+[update_policy_client]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation copy
+srcfiles policy-client.sh
+dstfiles /etc/policy-client.sh
+
+[set_log]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+#activation-date 2010-04-13-00-00_2010-05-13-00-00
+version ".*"
+operation execute
+scripts set_log.py

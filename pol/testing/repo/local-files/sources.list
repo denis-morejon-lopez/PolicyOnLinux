@@ -1,0 +1,7 @@
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/trusty trusty main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/trusty trusty-backports main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/trusty trusty-proposed main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/trusty trusty-security main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/trusty trusty-updates main universe multiverse restricted
+
+deb http://repositorio.etecsa.cu/repositorio/etecsa trusty main

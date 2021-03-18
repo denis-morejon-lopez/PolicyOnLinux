@@ -1,0 +1,6 @@
+#!/bin/bash
+
+debconf-set-selections /var/run/ocsinventory-agent.answers
+rm /var/run/ocsinventory-agent.answers
+apt-get install -y  ocsinventory-agent
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Este paquete permitira la posterior instalacion 
+# automatizada de todos los paquetes que se requieran
+
+apt-get install debconf-utils
+

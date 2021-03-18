@@ -1,0 +1,16 @@
+#!/usr/bin/python
+"""Los parsers se escriben en cualquier lenguaje. Son ejecutables
+independientes. Solo tienen que imprimir en lineas distintas los
+pares VARIABLE===VALOR. 
+Entre la VARIABLE y el VALOR tres signos de igualdad, sin espacios intermedios.
+El sistema se encargara de pasar los valores resultantes al fichero plantilla.
+Este fichero parser se debe llamar igual que la plantilla pero adicionandole al
+nombre de la plantilla la extencion .parser
+En la plantilla correspondiente deben aparecer las mismas variables que se imprimen
+aqui"""
+
+A="Abel"
+B=2
+
+print "A===%s" % A
+print "B===%s" % B

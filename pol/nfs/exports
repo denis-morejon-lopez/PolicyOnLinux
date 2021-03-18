@@ -1,0 +1,6 @@
+/var/pol 192.168.10.0/255.255.255.0(ro,sync,no_root_squash,no_subtree_check) 192.168.204.0/255.255.255.0(ro,sync,no_root_squash,no_subtree_check) 192.168.81.0/255.255.255.0(ro,sync,no_root_squash,no_subtree_check)
+
+/var/pol_log 192.168.10.0/255.255.255.0(rw,sync,no_root_squash,no_subtree_check) 192.168.204.0/255.255.255.0(rw,sync,no_root_squash,no_subtree_check) 192.168.81.0/255.255.255.0(rw,sync,no_root_squash,no_subtree_check)
+
+
+

@@ -1,0 +1,2 @@
+Los fichero que esta politica puede ejecutar en las pcs, se ubican en este directorio, pero deben ser referenciados
+por el fichero global-files/map.cfg

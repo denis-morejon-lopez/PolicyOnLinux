@@ -1,0 +1,42 @@
+#!/bin/bash
+#DECLARACION DE SERVIDORES
+serversARRAY=( "//filespace/rcompartidos/:$HOME/Servidores/filespace"
+               "//yourspace/$USER/:$HOME/Servidores/yourspace"
+               "//hercules/recursos/:$HOME/Servidores/hercules" )
+
+#RECOGIENDO DATOS DE USUARIO
+USER=$(whoami);
+echo "Su usuario es $USER";
+
+PASSOK=0
+while [ $PASSOK -ne 1 ]
+do
+        echo "Para montar las carpetas compartidas ponga su contraseña del dominio: "
+        echo "Puede presionar Ctr+C para salir de la aplicacion."
+        read -s PASS
+        
+        PASSOK=1        
+        /opt/pbis/bin/ldapsearch -LLL -x -h dtcf.etecsa.cu -D "$USER@dtcf.etecsa.cu" -w "$PASS" -b "cn=users,dc=dtcf,dc=etecsa,dc=cu" -s base || PASSOK=0
+done
+
+#DESMONTANDO LOS SERVIDORES
+echo "Desmontando Servidores"
+for item in "${serversARRAY[@]}" ; do
+        SERVER="${item%%:*}"
+        FOLDER="${item##*:}"
+
+        echo "...Desmontando $SERVER en $FOLDER"
+        sudo umount $FOLDER
+done
+
+#MONTANDO LOS SERVIDORES
+###rm -r $HOME/Servidores
+echo "Montando Servidores"
+for item in "${serversARRAY[@]}" ; do
+        SERVER="${item%%:*}"
+        FOLDER="${item##*:}"
+
+        echo "...Montando $SERVER en $FOLDER"
+        mkdir -p $FOLDER
+        sudo mount -t cifs $SERVER $FOLDER -o username=$USER,domain=DTCF,password=$PASS,uid=$USER,forceuid || rmdir $FOLDER
+done

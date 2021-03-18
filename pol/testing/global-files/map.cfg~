@@ -1,0 +1,126 @@
+# [nombre-politica]:
+# El nombre de la politica tiene que coincidir con el del directorio que se crea al respecto y va entre corchetes 
+
+# targetdn:
+# Se refiere a la unidad organizativa a la que se va a aplicar la politica. Pertenecen a los objetos [politica]
+
+# activation-date:
+# 1- Es un atributo del objeto targetdn y es opcional. Si no existe la politica se activa por defecto
+# 2- Se especifica el rango de tiempo en el cual se activa la politica para ese targetdn
+# 3- El formato de tiempo es el siguiente:
+#    a) El desde y el hasta se separan por un '_'
+#    b) Mientras cada fecha tiene el formato: year-mounth-day-hour-minute
+ 
+# version:
+# 1- Pertenecen a los objetos targetdn
+# 2- Los valores de version van separados por espacios y encerrados entre comillas
+# 3- Constituyen subcadenas (o expresiones regulares) del nombre completo de la version del S.O
+# 4- Las versiones de cada distribucion GNU/Linux se encuentran generalmente en el fichero /etc/issue
+# 5- La version "others" se refiere al resto de las versones no especificadas
+# 6- Escribir version es obligatorio
+# 7- Todas las versiones se escribe: ".*"
+# 8- Las versiones 9.x de Ubuntu se escriben: "Ubuntu 9.*"
+
+# operation:
+# 1- Se pueden definir operaciones de copia y ejecucion en la misma linea 'operation'
+# 2- Luego tendran que aparecer los atributos correspondientes a ambas operaciones en cualquier orden
+
+[sudoers]
+minfrequency 1 m
+targetdn "ou=People,dc=cfg,dc=etecsa,dc=cu"
+#    year-mounth-day-hour-minute_ year-mounth-day-hour-minute
+activation-date 2009-08-01-00-00_2010-08-01-00-00
+version "Ubuntu1"  "Debian"
+operation copy
+srcfiles sudoers
+dstfiles /etc/sudoers
+version "Ubuntu 91.*"
+operation copy
+srcfiles sudoers
+dstfiles /etc/sudoers
+version "others"
+operation copy
+srcfiles sudoers
+dstfiles /etc/sudoers
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+# 'version' es un atributo obligatorio 
+# aunque le referencia sea para todas las versiones
+version ".*"
+operation none
+
+[ssh_acl]
+targetdn "ou=People,dc=cfg,dc=etecsa,dc=cu"
+activation-date 2009-08-01-00-00_2010-05-01-00-00
+version ".*"
+operation copy
+srcfiles hosts.deny hosts.soporte
+dstfiles /etc/hosts.deny /etc/hosts.soporte
+operation copy
+copytype optional template
+srcfiles test_template
+dstfiles %(HOME)s/template.txt
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation copy
+srcfiles hosts.deny hosts.administradores
+dstfiles /etc/hosts.deny /etc/hosts.soporte
+
+[group_conf]
+targetdn "ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation copy
+srcfiles group.conf
+dstfiles /etc/security/group.conf
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+[time_zone]
+minfrequency 24 h
+# Las comillas solo son necesarias si existen espacios en blanco en el valor
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts time_zone.py
+
+[upgrade_pc]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts upgrade_pc.py
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+[change_root_passwd]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts change_root_passwd.py
+
+targetdn "ou=TECNOLOGIA DE LA INFORMACION,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+targetdn "ou=SERVIDORES,ou=DIRECCION TERRITORIAL CIENFUEGOS,ou=People,dc=cfg,dc=etecsa,dc=cu"
+version ".*"
+operation none
+
+[background]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation copy
+copytype optional
+srcfiles ubuntu_etecsa.jpg    Fondo.xml
+dstfiles /usr/share/backgrounds/ubuntu_etecsa.jpg    %(HOME)s/.gconf/desktop/gnome/background/%gconf.xml
+
+[set_log]
+targetdn ou=People,dc=cfg,dc=etecsa,dc=cu
+version ".*"
+operation execute
+scripts set_log.py
+

@@ -1,0 +1,43 @@
+Installation Guide
+
+
+===============In the NFS server:==================
+1- Instalar NFS 
+   apt-get install nfs-kernel-server
+
+2- NFS access control in:
+   /etc/exports
+   (You can see an example in the file nfs/exports)
+
+3- Put the pol directory in /var
+   /var/pol
+   
+
+
+===============In the clientes (Tested with debian and ubuntu)=================
+
+Script to execute policies connecting to the pol folder in the NFS server
+
+1- Install client components:
+       apt-get install nfs-common python-ldap ntpdate
+
+2- Edit /etc/crontab and add this line:
+
+   2  *    * * *   root    /etc/policy-client.sh
+
+   So that policies can be executed each hour.
+
+3- Restart cron service:
+   sudo /etc/init.d/cron reload
+   
+4- Execute the policies for the first time to see if It works (Maybe two times):
+   sudo /etc/policy-client.sh
+
+5- Verify if local log file is generated:
+   tail /var/log/pol.log
+   Note: The system put a general log file into the NFS server with information about all the clients
+   that has executed the policies successfuly. This file is in /var/pol_log/pol.log 
+
+6- If you see some content into /var/log/pol.log It means that all was right.
+
+

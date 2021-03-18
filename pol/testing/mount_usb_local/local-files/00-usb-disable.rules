@@ -1,0 +1,12 @@
+ACTION!="add", GOTO="end"
+
+SUBSYSTEMS=="usb", GOTO="start"
+GOTO="end"
+
+LABEL="start"
+
+
+DRIVER=="usb-storage", ATTR{authorized}="0"
+DRIVER=="uas", ATTR{authorized}="0"
+
+LABEL="end"

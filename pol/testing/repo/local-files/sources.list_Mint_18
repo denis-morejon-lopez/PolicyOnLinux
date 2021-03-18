@@ -1,0 +1,5 @@
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/xenial xenial main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/xenial xenial-security main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu/xenial xenial-updates main universe multiverse restricted
+deb http://repositorio.cfg.etecsa.cu/repositorio/ubuntu-partner xenial partner
+

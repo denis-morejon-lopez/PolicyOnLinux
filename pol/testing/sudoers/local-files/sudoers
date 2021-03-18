@@ -1,0 +1,19 @@
+# /etc/sudoers
+#
+# Fichero de configuracion de privilegios establecido por politica
+#
+
+Defaults        env_reset
+# Test
+# Uncomment to allow members of group sudo to not need a password
+# %sudo ALL=NOPASSWD: ALL
+
+# User privilege specification
+root    ALL=(ALL) ALL
+
+# Grupos con privilegios administrativos
+%sudo ALL=(ALL) ALL
+
+%instaladores ALL=(ALL) ALL
+%domain^users  ALL=NOPASSWD:/bin/mount , /bin/umount , /opt/Virtualizar/levantar_MV.sh , /home/Virtualizar/levantar_MV.sh , /opt/Virtualizar/apagar_MV.sh , /home/Virtualizar/apagar_MV.sh
+

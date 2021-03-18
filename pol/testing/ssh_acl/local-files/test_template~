@@ -1,0 +1,7 @@
+Este es un fichero plantilla
+
+El valor de A es: %(A)s entiendes?
+
+El valor de B es: %(B)s copiaste...?
+
+ 

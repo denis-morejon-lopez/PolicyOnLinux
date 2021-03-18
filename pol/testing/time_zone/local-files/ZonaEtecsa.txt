@@ -1,0 +1,3 @@
+
+# Zone  NAME            GMTOFF  RULES   FORMAT  [UNTIL]
+Zone    America/Havana  -5:00 - ETECSA

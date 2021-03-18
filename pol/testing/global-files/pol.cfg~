@@ -1,0 +1,8 @@
+[ldap]
+#connect_to_lda yes
+#unknown_host_action disconnect
+server agamenon.cfg.etecsa.cu
+base ou=People,dc=cfg,dc=etecsa,dc=cu
+host_id_type ipaddress
+#host_id_type hostname
+pc_attr_name iphostnumber
