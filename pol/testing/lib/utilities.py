@@ -380,11 +380,23 @@ class Host:
         """Devuelve una tupla de la forma (interface_name,ip,mac)  
         emplea para ello la funcion get_interfaces()"""
         interfaces = self.get_interfaces()
+        result = ()
         for interface_name in interfaces.keys():
-            interface_ip  = interfaces[interface_name][0]
-            interface_mac = interfaces[interface_name][1]
+            try:
+                interface_ip  = interfaces[interface_name][0]
+            except:
+                interface_ip = ''
+            try:
+                interface_mac = interfaces[interface_name][1]
+            except:
+                interface_mac = ''
             if interface_ip == ip_loc:
-                return interface_name,interface_ip,interface_mac
+                result = (interface_name,interface_ip,interface_mac)
+                
+        if not result:
+            result = ("","","")
+            
+        return result
 
     def get_hostname(self):
         """Devuelve la cadena hostname"""
