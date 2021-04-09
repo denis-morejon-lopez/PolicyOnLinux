@@ -29,7 +29,7 @@ policy_server_file='/var/policy_server_file'
 # en el inicio de la PC tambien.
 
 argument=$1
-if test $argument == "delay"; then
+if test "$argument" == "delay"; then
   delay=60
   sleep $delay
 fi
